@@ -1,0 +1,37 @@
+items:
+- apiVersion: install.istio.io/v1alpha1
+  kind: IstioOperator
+  metadata:
+    creationTimestamp: 123123
+    namespace: istio-system
+    name: example-test
+    generation: 1
+  spec:
+    profile: default
+    components:
+      pilot:
+        k8s:
+          resources:
+            requests:
+              memory: 3072Mi
+      egressGateways:
+      - name: istio-egressgateway
+        enabled: true
+- apiVersion: install.istio.io/v1alpha1
+  kind: IstioOperator
+  metadata:
+    creationTimestamp: 123123
+    namespace: istio-system
+    name: example-istiocontrolplane
+    generation: 1
+  spec:
+    profile: default
+    components:
+      pilot:
+        k8s:
+          resources:
+            requests:
+              memory: 3072Mi
+      egressGateways:
+      - name: istio-egressgateway
+        enabled: true
