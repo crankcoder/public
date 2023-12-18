@@ -1,0 +1,265 @@
+{
+    "displayName": "Cert Manager",
+    "dashboardFilters": [],
+    "mosaicLayout": {
+        "columns": 24,
+        "tiles": [
+            {
+                "widget": {
+                    "scorecard": {
+                        "sparkChartView": {
+                            "sparkChartType": "SPARK_LINE"
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum by (condition) (certmanager_certificate_ready_status)"
+                        }
+                    },
+                    "title": "Certificates Ready"
+                },
+                "xPos": 0,
+                "yPos": 0,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "sparkChartView": {
+                            "sparkChartType": "SPARK_LINE"
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "min(certmanager_certificate_expiration_timestamp_seconds > 0) - time()"
+                        }
+                    },
+                    "title": "Soonest Cert Expiry"
+                },
+                "xPos": 12,
+                "yPos": 0,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "Certificates",
+                    "timeSeriesTable": {
+                        "columnSettings": [
+                            {
+                                "column": "value",
+                                "visible": false
+                            }
+                        ],
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "label_join(avg by (name, namespace, condition, exported_namespace) (certmanager_certificate_ready_status == 1), \"namespaced_name\", \"-\", \"namespace\", \"exported_namespace\", \"name\")"
+                                }
+                            }
+                        ],
+                        "metricVisualization": "NUMBER"
+                    }
+                },
+                "xPos": 0,
+                "yPos": 8,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "Controller Sync Requests/sec",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum by (controller) (\n  rate(certmanager_controller_sync_call_count[${__interval}])\n)"
+                                },
+                                "legendTemplate": "${labels.controller}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 12,
+                "yPos": 8,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "ACME HTTP Requests/sec",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum by (method, path, status) (\n  rate(certmanager_http_acme_client_request_count[${__interval}])\n)"
+                                },
+                                "legendTemplate": "${labels.method} ${labels.path} ${labels.status}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 16,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "ACME HTTP Request avg duration",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_sum[${__interval}]))\n/\nsum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_count[${__interval}]))"
+                                },
+                                "legendTemplate": "${labels.method} ${labels.path} ${labels.status}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 12,
+                "yPos": 16,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "CPU",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (rate(container_cpu_usage_seconds_total{container=\"cert-manager\"}[${__interval}]))"
+                                },
+                                "legendTemplate": "CPU ${labels.pod}"
+                            },
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (kube_pod_container_resource_limits_cpu_cores{container=\"cert-manager\"})"
+                                },
+                                "legendTemplate": "Limit ${labels.pod}"
+                            },
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (kube_pod_container_resource_requests_cpu_cores{container=\"cert-manager\"})"
+                                },
+                                "legendTemplate": "Request ${labels.pod}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 24,
+                "height": 8,
+                "width": 6
+            },
+            {
+                "widget": {
+                    "title": "CPU Throttling",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (\n  rate(container_cpu_cfs_throttled_periods_total{container=\"cert-manager\"}[${__interval}])\n  /\n  rate(container_cpu_cfs_periods_total{container=\"cert-manager\"}[${__interval}])\n)"
+                                },
+                                "legendTemplate": "${labels.pod}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 6,
+                "yPos": 24,
+                "height": 8,
+                "width": 6
+            },
+            {
+                "widget": {
+                    "title": "Memory",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (container_memory_usage_bytes{container=\"cert-manager\"})"
+                                },
+                                "legendTemplate": "Memory ${labels.pod}"
+                            },
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (kube_pod_container_resource_limits_memory_bytes{container=\"cert-manager\"})"
+                                },
+                                "legendTemplate": "Limit ${labels.pod}"
+                            },
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg by (pod) (kube_pod_container_resource_requests_memory_bytes{container=\"cert-manager\"})"
+                                },
+                                "legendTemplate": "Request ${labels.pod}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 12,
+                "yPos": 24,
+                "height": 8,
+                "width": 6
+            },
+            {
+                "widget": {
+                    "title": "Network",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg(\n  sum without (interface) (\n    rate(container_network_receive_bytes_total{namespace=\"cert-manager\"}[${__interval}])\n  )\n)"
+                                },
+                                "legendTemplate": "receive"
+                            },
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "avg(\n  sum without (interface) (\n    rate(container_network_transmit_bytes_total{namespace=\"cert-manager\"}[${__interval}])\n  )\n)"
+                                },
+                                "legendTemplate": "transmit"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 18,
+                "yPos": 24,
+                "height": 8,
+                "width": 6
+            },
+            {
+                "widget": {
+                    "title": "Conversion info",
+                    "text": {
+                        "content": "Converted from cert-manager.json on 2023-12-18 at 12:59:43\n\nFor conversion issues such as no data in charts or missing tiles, please see our [troubleshooting docs](https://github.com/GoogleCloudPlatform/monitoring-dashboard-samples/blob/master/scripts/dashboard-importer/README.md#conversion-issues)\n\n##### Generated Warnings\n\n• Template variable 'datasource' was skipped because its type 'datasource' is not supported\n\n",
+                        "format": "MARKDOWN"
+                    }
+                },
+                "xPos": 0,
+                "yPos": 32,
+                "height": 5,
+                "width": 24
+            }
+        ]
+    },
+    "labels": {
+        "goog-imported-via-script": "",
+        "cloud-monitoring-dashboard-importer": "",
+        "goog-imported-grafana-dashboard": "",
+        "goog-imported-grafana-revision": "1",
+        "goog-imported-grafana-file-name-cert-manager": ""
+    }
+}
