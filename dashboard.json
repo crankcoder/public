@@ -1,0 +1,508 @@
+{
+    "displayName": "External Secrets Operator",
+    "dashboardFilters": [
+        {
+            "labelKey": "controller",
+            "templateVariable": "controller",
+            "stringValue": "",
+            "filterType": "METRIC_LABEL"
+        }
+    ],
+    "mosaicLayout": {
+        "columns": 24,
+        "tiles": [
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"secretstore\", result=\"error\"}[15m])))\n/\n(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"secretstore\"}[15m])))\n> 0"
+                        }
+                    },
+                    "title": "SecretStore error rate [15m]"
+                },
+                "xPos": 0,
+                "yPos": 1,
+                "height": 7,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"clustersecretstore\", result=\"error\"}[15m])))\n/\n(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"clustersecretstore\"}[15m])))\n> 0"
+                        }
+                    },
+                    "title": "ClusterSecretStore error rate [15m]"
+                },
+                "xPos": 4,
+                "yPos": 1,
+                "height": 7,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"externalsecret\", result=\"error\"}[15m])))\n/\n(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"externalsecret\"}[15m])))\n> 0"
+                        }
+                    },
+                    "title": "ExternalSecret error rate [15m]"
+                },
+                "xPos": 8,
+                "yPos": 1,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "(sum(irate(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"clusterexternalsecret\", result=\"error\"}[15m])))\n/\n(sum(irate(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"clusterexternalsecret\"}[15m])))\n> 0"
+                        }
+                    },
+                    "title": "ClusterExternalSecret error rate [15m]"
+                },
+                "xPos": 12,
+                "yPos": 1,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"pushsecret\", result=\"error\"}[15m])))\n/\n(sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"pushsecret\"}[15m])))\n> 0"
+                        }
+                    },
+                    "title": "PushSecret error rate [15m]"
+                },
+                "xPos": 16,
+                "yPos": 1,
+                "height": 7,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum(increase(externalsecret_provider_api_calls_count{service=~\".*external-secrets.*\", status=\"error\"}[15m]))\n/\nsum(increase(externalsecret_provider_api_calls_count{service=~\".*external-secrets.*\"}[15m]))\n> 0"
+                        }
+                    },
+                    "title": "Provider error rate [15m]"
+                },
+                "xPos": 20,
+                "yPos": 1,
+                "height": 7,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum(\n  workqueue_depth{service=~\"external-secrets.*\"}\n) by (name)"
+                        }
+                    },
+                    "title": "Workqueue depth"
+                },
+                "xPos": 8,
+                "yPos": 7,
+                "height": 7,
+                "width": 8
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum(increase(controller_runtime_webhook_requests_total{service=~\"external-secrets.*\",code=\"500\"}[15m]))\n/\nsum(increase(controller_runtime_webhook_requests_total{service=~\"external-secrets.*\"}[15m]))"
+                        }
+                    },
+                    "title": "Webhook error rate [15m]"
+                },
+                "xPos": 0,
+                "yPos": 8,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "histogram_quantile(0.99,\n  sum(rate(controller_runtime_webhook_latency_seconds_bucket{service=~\"external-secrets.*\"}[5m])) by (le)\n)"
+                        }
+                    },
+                    "title": "Webhook latency [5m]"
+                },
+                "xPos": 4,
+                "yPos": 8,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "histogram_quantile(0.99,\n  sum(rate(controller_runtime_reconcile_time_seconds_bucket{service=~\"external-secrets.*\"}[5m])) by (le)\n)"
+                        }
+                    },
+                    "title": "Reconcile latency [p99]"
+                },
+                "xPos": 16,
+                "yPos": 8,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "gaugeView": {
+                            "lowerBound": 0,
+                            "upperBound": 100
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum(increase(controller_runtime_reconcile_total{service=~\"external-secrets.*\",controller=~\"${controller.value}\",result=\"error\"}[1m]))\n/\nsum(increase(controller_runtime_reconcile_total{service=~\"external-secrets.*\",controller=~\"${controller.value}\"}[1m]))\n> 0"
+                        }
+                    },
+                    "title": "reconcile error rate [p99]"
+                },
+                "xPos": 20,
+                "yPos": 8,
+                "height": 6,
+                "width": 4
+            },
+            {
+                "widget": {
+                    "title": "Provider errors [15m]",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "increase(externalsecret_provider_api_calls_count{service=~\".*external-secrets.*\", status=\"error\"}[15m])"
+                                },
+                                "legendTemplate": "${labels.provider}/${labels.call}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 14,
+                "height": 8,
+                "width": 8
+            },
+            {
+                "widget": {
+                    "title": "Not Ready ExternalSecrets  [15m]",
+                    "timeSeriesTable": {
+                        "columnSettings": [
+                            {
+                                "column": "value",
+                                "visible": false
+                            }
+                        ],
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(externalsecret_status_condition{condition=\"Ready\",status=\"False\"}) by (namespace, name) == 1"
+                                }
+                            }
+                        ],
+                        "metricVisualization": "NUMBER"
+                    }
+                },
+                "xPos": 8,
+                "yPos": 14,
+                "height": 8,
+                "width": 7
+            },
+            {
+                "widget": {
+                    "title": "ExternalSecret sync call errors [15m]",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(increase(externalsecret_sync_calls_error[15m])) by (name, namespace)"
+                                },
+                                "legendTemplate": "${labels.namespace}/${labels.name}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 15,
+                "yPos": 14,
+                "height": 8,
+                "width": 9
+            },
+            {
+                "widget": {
+                    "title": "requests by path per minute",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(increase(controller_runtime_webhook_requests_total{service=~\".*external-secrets.*\"}[1m])) by (webhook)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 22,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "requests in flight",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(controller_runtime_webhook_requests_in_flight{service=~\".*external-secrets.*\"}) by (webhook)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 12,
+                "yPos": 22,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "requests by code per minute",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(increase(controller_runtime_webhook_requests_total{service=~\".*external-secrets.*\"}[1m])) by (code)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 30,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "webhook latency",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "HEATMAP",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(rate(controller_runtime_webhook_latency_seconds_bucket{service=~\".*external-secrets.*\"}[${__interval}])) by (le)"
+                                },
+                                "legendTemplate": "${labels.le}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 12,
+                "yPos": 30,
+                "height": 8,
+                "width": 12
+            },
+            {
+                "widget": {
+                    "title": "active workers by controller",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(controller_runtime_active_workers{service=~\".*external-secrets.*\",controller=~\"${controller.value}\"}) by (controller)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 38,
+                "height": 8,
+                "width": 7
+            },
+            {
+                "widget": {
+                    "title": "workqueue depth",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(workqueue_depth{service=~\".*external-secrets.*\"}) by (name)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 7,
+                "yPos": 38,
+                "height": 8,
+                "width": 8
+            },
+            {
+                "widget": {
+                    "title": "API calls by provider",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(increase(externalsecret_provider_api_calls_count{service=~\".*external-secrets.*\"}[1m])) by(provider, call, status)"
+                                },
+                                "legendTemplate": "${labels.provider}/${labels.call}=${labels.status}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 15,
+                "yPos": 38,
+                "height": 8,
+                "width": 9
+            },
+            {
+                "widget": {
+                    "scorecard": {
+                        "sparkChartView": {
+                            "sparkChartType": "SPARK_LINE"
+                        },
+                        "thresholds": [],
+                        "timeSeriesQuery": {
+                            "prometheusQuery": "sum(controller_runtime_max_concurrent_reconciles{service=~\".*external-secrets.*\",controller=~\"${controller.value}\"}) by (controller)"
+                        }
+                    },
+                    "title": "max concurrent: $controller"
+                },
+                "xPos": 0,
+                "yPos": 46,
+                "height": 6,
+                "width": 3.4285714285714284
+            },
+            {
+                "widget": {
+                    "title": "reconcile rate per minute: $controller",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "LINE",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "sum(increase(controller_runtime_reconcile_total{service=~\".*external-secrets.*\",controller=~\"${controller.value}\"}[1m])) by (result)"
+                                },
+                                "legendTemplate": "__auto"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 52,
+                "height": 8,
+                "width": 3.4285714285714284
+            },
+            {
+                "widget": {
+                    "title": "reconcile time latency: $controller",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "plotType": "HEATMAP",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "rate(controller_runtime_reconcile_time_seconds_bucket{service=~\".*external-secrets.*\",controller=~\"${controller.value}\"}[${__interval}])"
+                                },
+                                "legendTemplate": "${labels.le}"
+                            }
+                        ]
+                    }
+                },
+                "xPos": 0,
+                "yPos": 60,
+                "height": 8,
+                "width": 3.4285714285714284
+            },
+            {
+                "widget": {
+                    "title": "Conversion info",
+                    "text": {
+                        "content": "Converted from dashboard.json on 2024-1-12 at 09:49:19\n\nFor conversion issues such as no data in charts or missing tiles, please see our [troubleshooting docs](https://github.com/GoogleCloudPlatform/monitoring-dashboard-samples/blob/master/scripts/dashboard-importer/README.md#conversion-issues)\n\n##### Generated Warnings\n\n- This dashboard contains collapsible groups that were not imported because the importer doesn't support their conversion. Tiles in collapsible groups will be unnested.\n- Template variable 'datasource' was skipped because its type 'datasource' is not supported",
+                        "format": "MARKDOWN"
+                    }
+                },
+                "xPos": 0,
+                "yPos": 68,
+                "height": 6,
+                "width": 24
+            }
+        ]
+    },
+    "labels": {
+        "goog-imported-via-script": "",
+        "cloud-monitoring-dashboard-importer": "",
+        "goog-imported-grafana-dashboard": "",
+        "goog-imported-grafana-revision": "9",
+        "goog-imported-grafana-file-name-dashboard": ""
+    }
+}
